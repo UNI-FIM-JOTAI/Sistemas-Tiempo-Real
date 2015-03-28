@@ -138,5 +138,6 @@ namespace InterfazGrafica
             msg = msg + "*";
             EnviarComando(msg);
         }
+
     }
 }

@@ -309,6 +309,9 @@
         AI41sFA2ko+KWpCRa8hn1DjWfv+s3zfrE8j6BLI+gaxP4E//BP4fGn8zT+2VNJgAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="PuertoSerial.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="BtnConexion.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAWIAAAFiCAYAAADMXNJ6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -482,9 +485,6 @@
         BbAAFsACWAALYAEsUHML/B/r1/A3PZAgvAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="PuertoSerial.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="$this.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         /9j/4AAQSkZJRgABAQEAAAAAAAD/4QBiRXhpZgAATU0AKgAAAAgAAgExAAIAAAAHAAAAJodpAAQAAAAB

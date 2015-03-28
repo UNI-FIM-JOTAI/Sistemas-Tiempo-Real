@@ -36,12 +36,13 @@
             this.GBx_Comando = new System.Windows.Forms.GroupBox();
             this.TxBxComando = new System.Windows.Forms.TextBox();
             this.BtnEnviar = new System.Windows.Forms.Button();
-            this.BtnConexion = new System.Windows.Forms.Button();
             this.PuertoList = new System.Windows.Forms.ComboBox();
             this.RTBx_Terminal = new System.Windows.Forms.RichTextBox();
             this.PuertoSerial = new System.IO.Ports.SerialPort(this.components);
+            this.BtnConexion = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.BtnLimpiar)).BeginInit();
             this.GBx_Comando.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BtnConexion)).BeginInit();
             this.SuspendLayout();
             // 
             // LConexion
@@ -50,11 +51,12 @@
             this.LConexion.BackColor = System.Drawing.Color.Transparent;
             this.LConexion.Font = new System.Drawing.Font("Showcard Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LConexion.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.LConexion.Location = new System.Drawing.Point(24, 10);
+            this.LConexion.Location = new System.Drawing.Point(23, 10);
             this.LConexion.Name = "LConexion";
             this.LConexion.Size = new System.Drawing.Size(64, 14);
             this.LConexion.TabIndex = 40;
             this.LConexion.Text = "Conectar";
+            this.LConexion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LimiparTerminal
             // 
@@ -114,18 +116,6 @@
             this.BtnEnviar.UseVisualStyleBackColor = true;
             this.BtnEnviar.Click += new System.EventHandler(this.BtnEnviar_Click);
             // 
-            // BtnConexion
-            // 
-            this.BtnConexion.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnConexion.BackgroundImage")));
-            this.BtnConexion.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnConexion.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnConexion.Location = new System.Drawing.Point(24, 27);
-            this.BtnConexion.Name = "BtnConexion";
-            this.BtnConexion.Size = new System.Drawing.Size(61, 53);
-            this.BtnConexion.TabIndex = 36;
-            this.BtnConexion.UseVisualStyleBackColor = true;
-            this.BtnConexion.Click += new System.EventHandler(this.BtnConexion_Click);
-            // 
             // PuertoList
             // 
             this.PuertoList.FormattingEnabled = true;
@@ -149,6 +139,19 @@
             // 
             this.PuertoSerial.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.PuertoSerial_DataReceived);
             // 
+            // BtnConexion
+            // 
+            this.BtnConexion.BackColor = System.Drawing.Color.Transparent;
+            this.BtnConexion.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnConexion.BackgroundImage")));
+            this.BtnConexion.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnConexion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnConexion.Location = new System.Drawing.Point(24, 27);
+            this.BtnConexion.Name = "BtnConexion";
+            this.BtnConexion.Size = new System.Drawing.Size(61, 56);
+            this.BtnConexion.TabIndex = 42;
+            this.BtnConexion.TabStop = false;
+            this.BtnConexion.Click += new System.EventHandler(this.BtnConexion_Click);
+            // 
             // Terminal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -156,12 +159,12 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(535, 340);
+            this.Controls.Add(this.BtnConexion);
             this.Controls.Add(this.RTBx_Terminal);
             this.Controls.Add(this.LConexion);
             this.Controls.Add(this.LimiparTerminal);
             this.Controls.Add(this.BtnLimpiar);
             this.Controls.Add(this.GBx_Comando);
-            this.Controls.Add(this.BtnConexion);
             this.Controls.Add(this.PuertoList);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Terminal";
@@ -169,6 +172,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.BtnLimpiar)).EndInit();
             this.GBx_Comando.ResumeLayout(false);
             this.GBx_Comando.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BtnConexion)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,9 +186,9 @@
         private System.Windows.Forms.GroupBox GBx_Comando;
         private System.Windows.Forms.TextBox TxBxComando;
         private System.Windows.Forms.Button BtnEnviar;
-        private System.Windows.Forms.Button BtnConexion;
         private System.Windows.Forms.ComboBox PuertoList;
         private System.Windows.Forms.RichTextBox RTBx_Terminal;
         private System.IO.Ports.SerialPort PuertoSerial;
+        private System.Windows.Forms.PictureBox BtnConexion;
     }
 }
