@@ -1,0 +1,27 @@
+#include <18F4550.h>
+#device adc=8       //Resolucion 8BITS
+#use delay(clock=10000000)    //Oscilador de 10Mz
+#use rs232(baud=9600, xmit=PIN_C6,rcv=PIN_C7,bits=8,parity=N)
+#fuses HS,NOPROTECT,NOWDT,NOLVP,CPUDIV1,nomclr
+#define Tiempo 200
+
+#use FAST_IO(A) 
+#use FAST_IO(B)
+#use FAST_IO(D)
+
+#byte T0CON=0xFD5
+#byte wreg=0xFE8
+#byte TOSU=0xFFF
+#byte TOSH=0xFFE
+#byte TOSL=0xFFD
+
+
+void main()
+{
+
+   while(TRUE)
+   {
+      //TODO: User Code
+   }
+
+}

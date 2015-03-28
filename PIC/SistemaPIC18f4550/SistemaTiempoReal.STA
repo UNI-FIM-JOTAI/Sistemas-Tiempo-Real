@@ -1,0 +1,47 @@
+
+ROM used:   218/16384 (1%)
+            218/16384 (1%) including unused fragments
+
+            0.3 Average locations per line
+            36.3 Average locations per statement
+
+RAM used:   23/2048 (1%) at main() level
+            23/2048 (1%) worst case
+
+Stack used: 1 worst case (0 in main + 1 for interrupts)
+Stack size: 31
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   43     6 100  SistemaTiempoReal.c
+  821     0   0  C:\Program Files (x86)\PICC\Devices\18F4550.h
+----- -----
+  864     6 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     34   8    0    86  1.9  serial_isr
+0     38   9    0    14  0.8  MAIN
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               2
+    Statements              6
+    Comments                148
+    Volume (V)              122
+    Difficulty (D)          2.7
+    Effort to implement (E) 326
+    Time to implement (T)   0 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   1
+    Maintainability (MI)    166
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-00006     0  4  
+00008-00094   142  0  
+00096-07FFE    72  32546  
+
+
+
