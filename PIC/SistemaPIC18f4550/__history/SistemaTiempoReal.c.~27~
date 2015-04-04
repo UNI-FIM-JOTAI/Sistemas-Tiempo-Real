@@ -9,6 +9,12 @@
 #use FAST_IO(D)
 
 // Declaracion de Variables
+
+
+int const lenbuff=10;
+
+int   xbuff=0x00;
+char  cbuff[lenbuff];
 char  rcvchar=0x00;
 int1  flagcmd=0;
 
@@ -26,8 +32,14 @@ void serial_isr()
    //printf("Recibido");     // se envia por Serial una palabra para verificar interrupcion
    rcvchar = 0x00;
    rcvchar = getc();    // se recibe el caracter enviado por la computadora
+   //addcbuff(rcvchar);
    output_toggle(PIN_D6);
-   flagcmd=1;
+   disable_interrupts(int_rda);     
+   //flagcmd=0;                       // Desactivo flag de comando pendiente.
+   //printf("Recibido");
+   printf("%c", rcvchar );
+   enable_interrupts(int_rda);
+   //flagcmd=1;
    //printf("%c", rcvchar );
    //delay_us(20);
 }
@@ -60,6 +72,11 @@ void MCU_Init()
    printf("Conectado....*");
    Port_Init();
    inte_Init();
+   setup_spi(FALSE);
+   setup_psp(PSP_DISABLED);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   port_b_pullups(FALSE);
 }
 
 

@@ -60,6 +60,11 @@ void MCU_Init()
    printf("Conectado....*");
    Port_Init();
    inte_Init();
+   setup_spi(FALSE);
+   setup_psp(PSP_DISABLED);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   port_b_pullups(FALSE);
 }
 
 

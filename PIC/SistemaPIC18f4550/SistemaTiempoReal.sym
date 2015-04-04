@@ -22,6 +22,9 @@
 014     @INTERRUPT_AREA
 015     @INTERRUPT_AREA
 016     rcvchar
+017.0   flagcmd
+018     @PSTRINGC_9600_31766_31767.@SCRATCH1
+019     @PSTRINGC_9600_31766_31767.@SCRATCH2
 F83     PSP_DATA
 FB4.6   C1OUT
 FB4.7   C2OUT
@@ -31,34 +34,35 @@ FBC     CCP_2_HIGH
 FBE     CCP_1
 FBE     CCP_1_LOW
 FBF     CCP_1_HIGH
-FD5     T0CON
 FE1-FE2 @READ_PACKED_MEMORY.P1
 FE1-FE2 @WRITE_PACKED_MEMORY.P2
-FE8     wreg
 FE9-FEA @WRITE_PACKED_MEMORY.P1
-FE9-FEA @READ_PACKED_MEMORY.P2
+FE9-FEA @READ_PROGRAM_MEMORY.P2
 FE9-FEA @WRITE_PROGRAM_MEMORY.P3
-FE9-FEA @READ_PROGRAM_MEMORY.P4
-FF6-FF8 @WRITE_PROGRAM_MEMORY.P1
-FF6-FF8 @READ_PROGRAM_MEMORY.P2
-FFD     TOSL
-FFE     TOSH
-FFF     TOSU
+FE9-FEA @READ_PACKED_MEMORY.P4
+FF6-FF8 @READ_PROGRAM_MEMORY.P1
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P2
 
 ROM Allocation:
 000096  serial_isr
-0000B8  MAIN
-0000B8  @cinit1
-0000DA  @cinit2
+0000AA  @const646.call
+0000BA  @PSTRINGC_9600_31766_31767
+0000DE  Port_Init
+0000F0  inte_Init
+0000FA  MCU_Init
+00010C  procesa_cmd
+00011E  MAIN
+00011E  @cinit1
+000142  @cinit2
 
 Project Directory:
     D:\IGNACIO\ProgramacionGitHub\Sistemas-Tiempo-Real\PIC\SistemaPIC18f4550\
 
 Project Files:
-    SistemaTiempoReal.c                                     [28-mar-15 04:30  CRC=A3397BA7]
+    SistemaTiempoReal.c                                     [04-abr-15 01:30  CRC=5F46C73C]
     C:\Program Files (x86)\PICC\Devices\18F4550.h           [03-jul-13 14:29  CRC=A157EDDE]
 
-Source signature=E5E95763
+Source signature=A1F6A2F8
 
 Units:
     SistemaTiempoReal (main)

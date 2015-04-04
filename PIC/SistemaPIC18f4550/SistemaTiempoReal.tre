@@ -1,4 +1,9 @@
 ÀÄSistemaTiempoReal
-   ÃÄMAIN  0/38  Ram=0
-   ³  ÀÄ@cinit1  (Inline)  Ram=0
-   ÀÄserial_isr  0/34  Ram=0
+   ÃÄMAIN  0/48  Ram=0
+   ³  ÃÄ@cinit1  (Inline)  Ram=0
+   ³  ÃÄMCU_Init  0/18  Ram=0
+   ³  ³  ÃÄ@PSTRINGC_9600_31766_31767  0/36  Ram=2
+   ³  ³  ÃÄPort_Init  0/18  Ram=0
+   ³  ³  ÀÄinte_Init  0/10  Ram=0
+   ³  ÀÄprocesa_cmd  0/18  Ram=0
+   ÀÄserial_isr  0/20  Ram=0

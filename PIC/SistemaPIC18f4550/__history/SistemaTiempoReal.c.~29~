@@ -9,6 +9,8 @@
 #use FAST_IO(D)
 
 // Declaracion de Variables
+int const lenbuff=10;
+
 char  rcvchar=0x00;
 int1  flagcmd=0;
 
@@ -60,6 +62,11 @@ void MCU_Init()
    printf("Conectado....*");
    Port_Init();
    inte_Init();
+   setup_spi(FALSE);
+   setup_psp(PSP_DISABLED);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   port_b_pullups(FALSE);
 }
 
 

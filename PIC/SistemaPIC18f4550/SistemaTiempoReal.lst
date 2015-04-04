@@ -1,16 +1,16 @@
-CCS PCH C Compiler, Version 5.008, 5967               28-mar-15 04:32
+CCS PCH C Compiler, Version 5.008, 5967               04-abr-15 01:30
 
                Filename:   D:\IGNACIO\ProgramacionGitHub\Sistemas-Tiempo-Real\PIC\SistemaPIC18f4550\SistemaTiempoReal.lst
 
-               ROM used:   218 bytes (1%)
-                           Largest free fragment is 32546
-               RAM used:   23 (1%) at main() level
-                           23 (1%) worst case
-               Stack used: 1 locations (0 in main + 1 for interrupts)
+               ROM used:   330 bytes (1%)
+                           Largest free fragment is 32434
+               RAM used:   24 (1%) at main() level
+                           26 (1%) worst case
+               Stack used: 3 locations (2 in main + 1 for interrupts)
                Stack size: 31
 
 *
-0000:  GOTO   00B8
+0000:  GOTO   011E
 *
 0008:  MOVWF  04
 000A:  MOVFF  FD8,05
@@ -54,6 +54,28 @@ CCS PCH C Compiler, Version 5.008, 5967               28-mar-15 04:32
 .................... #include <18F4550.h> 
 .................... //////// Standard Header file for the PIC18F4550 device //////////////// 
 .................... #device PIC18F4550 
+*
+00AA:  DATA 43,6F
+00AC:  DATA 6E,65
+00AE:  DATA 63,74
+00B0:  DATA 61,64
+00B2:  DATA 6F,2E
+00B4:  DATA 2E,2E
+00B6:  DATA 2E,2A
+00B8:  DATA 00,00
+00BA:  TBLRD*+
+00BC:  MOVF   FF5,F
+00BE:  BZ    00DA
+00C0:  MOVFF  FF6,18
+00C4:  MOVFF  FF7,19
+00C8:  MOVF   FF5,W
+00CA:  BTFSS  F9E.4
+00CC:  BRA    00CA
+00CE:  MOVWF  FAD
+00D0:  MOVFF  18,FF6
+00D4:  MOVFF  19,FF7
+00D8:  BRA    00BA
+00DA:  GOTO   0104 (RETURN)
 ....................  
 .................... #list 
 ....................  
@@ -66,17 +88,21 @@ CCS PCH C Compiler, Version 5.008, 5967               28-mar-15 04:32
 .................... #use FAST_IO(B) 
 .................... #use FAST_IO(D) 
 ....................  
-.................... // Definicion de direcciones en la memoria del PIC 
-.................... #byte T0CON=0xFD5 
-.................... #byte wreg=0xFE8 
-.................... #byte TOSU=0xFFF 
-.................... #byte TOSH=0xFFE 
-.................... #byte TOSL=0xFFD 
-....................  
 .................... // Declaracion de Variables 
-....................  
 .................... char  rcvchar=0x00; 
+.................... int1  flagcmd=0; 
 ....................  
+....................  
+.................... void inte_Init()  // interrupcion de puerto serial 
+.................... { 
+....................    enable_interrupts(GLOBAL); 
+*
+00F0:  MOVLW  C0
+00F2:  IORWF  FF2,F
+....................    enable_interrupts(INT_RDA); 
+00F4:  BSF    F9D.5
+00F6:  GOTO   0108 (RETURN)
+.................... } 
 ....................  
 .................... // Interrupcion por comunicacion serial 
 .................... #INT_RDA 
@@ -84,54 +110,117 @@ CCS PCH C Compiler, Version 5.008, 5967               28-mar-15 04:32
 .................... { 
 ....................    //printf("Recibido");     // se envia por Serial una palabra para verificar interrupcion 
 ....................    rcvchar = 0x00; 
+*
 0096:  CLRF   16
 ....................    rcvchar = getc();    // se recibe el caracter enviado por la computadora 
 0098:  BTFSS  F9E.5
 009A:  BRA    0098
 009C:  MOVFF  FAE,16
-....................    printf("%c", rcvchar ); 
-00A0:  MOVF   16,W
-00A2:  BTFSS  F9E.4
-00A4:  BRA    00A2
-00A6:  MOVWF  FAD
-....................    delay_us(20); 
-00A8:  MOVLW  10
-00AA:  MOVWF  00
-00AC:  DECFSZ 00,F
-00AE:  BRA    00AC
-00B0:  NOP   
-00B2:  BCF    F9E.5
-00B4:  GOTO   0054
+....................    output_toggle(PIN_D6); 
+00A0:  BTG    F8C.6
+....................    flagcmd=1; 
+00A2:  BSF    17.0
+....................    //printf("%c", rcvchar ); 
+....................    //delay_us(20); 
+00A4:  BCF    F9E.5
+00A6:  GOTO   0054
 .................... } 
 ....................  
-.................... void main() 
-00B8:  CLRF   FF8
-00BA:  BCF    FD0.7
-00BC:  BSF    07.7
-00BE:  BCF    FB8.3
-00C0:  MOVLW  40
-00C2:  MOVWF  FAF
-00C4:  MOVLW  A6
-00C6:  MOVWF  FAC
-00C8:  MOVLW  90
-00CA:  MOVWF  FAB
-00CC:  CLRF   16
-00CE:  MOVF   FC1,W
-00D0:  ANDLW  C0
-00D2:  IORLW  0F
-00D4:  MOVWF  FC1
-00D6:  MOVLW  07
-00D8:  MOVWF  FB4
-.................... { 
+.................... void procesa_cmd(void){             // procesa el ultimo comando guardado, un comando esta comprendido entre $ hasta *  
+....................   
+....................    disable_interrupts(int_rda);      
+*
+010C:  BCF    F9D.5
+....................    flagcmd=0;                       // Desactivo flag de comando pendiente. 
+010E:  BCF    17.0
+....................    //printf("Recibido"); 
+....................    printf("%c", rcvchar ); 
+0110:  MOVF   16,W
+0112:  BTFSS  F9E.4
+0114:  BRA    0112
+0116:  MOVWF  FAD
+....................    enable_interrupts(int_rda);             
+0118:  BSF    F9D.5
+011A:  GOTO   014A (RETURN)
+.................... } 
 ....................  
+....................  
+.................... void Port_Init() 
+.................... { 
+....................    set_tris_b(0x00); 
+*
+00DE:  MOVLW  00
+00E0:  MOVWF  F93
+....................    set_tris_d(0x00); 
+00E2:  MOVWF  F95
+....................    set_tris_a(0x00); 
+00E4:  MOVWF  F92
+....................    output_b(0x00); 
+00E6:  CLRF   F8A
+....................    output_d(0x00); 
+00E8:  CLRF   F8C
+....................    output_a(0x00); 
+00EA:  CLRF   F89
+00EC:  GOTO   0106 (RETURN)
+.................... } 
+....................  
+....................  
+....................  
+....................  
+.................... void MCU_Init() 
+.................... { 
+....................    printf("Conectado....*"); 
+*
+00FA:  MOVLW  AA
+00FC:  MOVWF  FF6
+00FE:  MOVLW  00
+0100:  MOVWF  FF7
+0102:  BRA    00BA
+....................    Port_Init(); 
+0104:  BRA    00DE
+....................    inte_Init(); 
+0106:  BRA    00F0
+0108:  GOTO   0144 (RETURN)
+.................... } 
+....................  
+....................  
+.................... void main() 
+*
+011E:  CLRF   FF8
+0120:  BCF    FD0.7
+0122:  BSF    07.7
+0124:  BCF    FB8.3
+0126:  MOVLW  40
+0128:  MOVWF  FAF
+012A:  MOVLW  A6
+012C:  MOVWF  FAC
+012E:  MOVLW  90
+0130:  MOVWF  FAB
+0132:  CLRF   16
+0134:  BCF    17.0
+0136:  MOVF   FC1,W
+0138:  ANDLW  C0
+013A:  IORLW  0F
+013C:  MOVWF  FC1
+013E:  MOVLW  07
+0140:  MOVWF  FB4
+.................... { 
+....................    MCU_Init();    
+0142:  BRA    00FA
 ....................    while(TRUE) 
-....................    { 
-00DA:  BRA    00DA
-....................       //TODO: User Code 
+....................    {   
+....................       if(flagcmd){ 
+0144:  BTFSS  17.0
+0146:  BRA    014A
+....................          procesa_cmd(); 
+0148:  BRA    010C
+....................       } 
+014A:  BRA    0144
+....................  
 ....................    } 
 ....................  
 .................... } 
-00DC:  SLEEP 
+014C:  SLEEP 
 
 Configuration Fuses:
    Word  1: CC27   PLL12 CPUDIV1 USBDIV HS FCMEN IESO

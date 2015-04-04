@@ -7,17 +7,24 @@
 #use FAST_IO(A) 
 #use FAST_IO(B)
 #use FAST_IO(D)
-
+/*
+// Definicion de direcciones en la memoria del PIC
+#byte T0CON=0xFD5
+#byte wreg=0xFE8
+#byte TOSU=0xFFF
+#byte TOSH=0xFFE
+#byte TOSL=0xFFD
+*/
 // Declaracion de Variables
-char  rcvchar=0x00;
-int1  flagcmd=0;
 
+char  rcvchar=0x00;
 
 void inte_Init()  // interrupcion de puerto serial
 {
    enable_interrupts(GLOBAL);
    enable_interrupts(INT_RDA);
 }
+
 
 // Interrupcion por comunicacion serial
 #INT_RDA
@@ -26,19 +33,8 @@ void serial_isr()
    //printf("Recibido");     // se envia por Serial una palabra para verificar interrupcion
    rcvchar = 0x00;
    rcvchar = getc();    // se recibe el caracter enviado por la computadora
-   output_toggle(PIN_D6);
-   flagcmd=1;
    //printf("%c", rcvchar );
    //delay_us(20);
-}
-
-void procesa_cmd(void){             // procesa el ultimo comando guardado, un comando esta comprendido entre $ hasta * 
- 
-   disable_interrupts(int_rda);     
-   flagcmd=0;                       // Desactivo flag de comando pendiente.
-   //printf("Recibido");
-   printf("%c", rcvchar );
-   enable_interrupts(int_rda);            
 }
 
 
@@ -52,26 +48,38 @@ void Port_Init()
    output_a(0x00);
 }
 
+void Config_TMR0()
+{
+   T0CON=0b10000111;
+
+}
+
 
 
 
 void MCU_Init()
 {
-   printf("Conectado....*");
+   printf("Conectado.............*");
    Port_Init();
+   //Procesos_Init();
    inte_Init();
+   Config_TMR0();
+   setup_spi(FALSE);
+   setup_psp(PSP_DISABLED);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   port_b_pullups(FALSE);
 }
 
 
 void main()
 {
-   MCU_Init();   
+   MCU_Init();	
    while(TRUE)
-   {  
-      if(flagcmd){
-         procesa_cmd();
-      }
-
+   {
+      delay_ms(100);
+      //printf("Recibido");     // se envia por Serial una palabra para verificar interrupcion
+      //TODO: User Code
    }
 
 }

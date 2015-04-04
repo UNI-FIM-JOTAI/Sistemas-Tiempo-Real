@@ -9,7 +9,14 @@
 #use FAST_IO(D)
 
 // Declaracion de Variables
+
+
+int const lenbuff=10;
+
+int   xbuff=0x00;
+char  cbuff[lenbuff];
 char  rcvchar=0x00;
+char  comando;
 int1  flagcmd=0;
 
 
@@ -19,6 +26,21 @@ void inte_Init()  // interrupcion de puerto serial
    enable_interrupts(INT_RDA);
 }
 
+void addcbuff(char c)   
+{
+   switch(c)
+   {
+      case '*':                  // en caso de recibir *, levanta el flag para saber que se termino de enviar un comando.
+         cbuff[xbuff++] = c;
+         flagcmd = 1;
+      break;
+      default:
+         cbuff[xbuff++] = c;
+   }
+}
+
+
+
 // Interrupcion por comunicacion serial
 #INT_RDA
 void serial_isr()
@@ -26,18 +48,18 @@ void serial_isr()
    //printf("Recibido");     // se envia por Serial una palabra para verificar interrupcion
    rcvchar = 0x00;
    rcvchar = getc();    // se recibe el caracter enviado por la computadora
-   output_toggle(PIN_D6);
-   flagcmd=1;
+   addcbuff(rcvchar);
    //printf("%c", rcvchar );
    //delay_us(20);
 }
 
 void procesa_cmd(void){             // procesa el ultimo comando guardado, un comando esta comprendido entre $ hasta * 
  
+   int i, j=0;                      
+   char salida[lenbuff];            // Argumento de comando (si lo tiene)
    disable_interrupts(int_rda);     
    flagcmd=0;                       // Desactivo flag de comando pendiente.
-   //printf("Recibido");
-   printf("%c", rcvchar );
+   printf("Recibido");
    enable_interrupts(int_rda);            
 }
 
@@ -59,7 +81,13 @@ void MCU_Init()
 {
    printf("Conectado....*");
    Port_Init();
+   //Procesos_Init();
    inte_Init();
+   setup_spi(FALSE);
+   setup_psp(PSP_DISABLED);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   port_b_pullups(FALSE);
 }
 
 
@@ -71,7 +99,9 @@ void main()
       if(flagcmd){
          procesa_cmd();
       }
-
+      //delay_ms(100);
+      //printf("Recibido");     // se envia por Serial una palabra para verificar interrupcion
+      //TODO: User Code
    }
 
 }

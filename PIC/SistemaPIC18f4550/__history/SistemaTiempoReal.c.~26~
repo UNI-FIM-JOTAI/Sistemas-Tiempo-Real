@@ -9,6 +9,12 @@
 #use FAST_IO(D)
 
 // Declaracion de Variables
+
+
+int const lenbuff=10;
+
+int   xbuff=0x00;
+char  cbuff[lenbuff];
 char  rcvchar=0x00;
 int1  flagcmd=0;
 
@@ -19,6 +25,22 @@ void inte_Init()  // interrupcion de puerto serial
    enable_interrupts(INT_RDA);
 }
 
+void addcbuff(char c)   
+{
+   switch(c)
+   {
+      case '*':                  // en caso de recibir *, levanta el flag para saber que se termino de enviar un comando.
+         cbuff[xbuff++] = c;
+         flagcmd = 1;
+         //output_toggle(PIN_D4);
+      break;
+      default:
+         cbuff[xbuff++] = c;
+   }
+}
+
+
+
 // Interrupcion por comunicacion serial
 #INT_RDA
 void serial_isr()
@@ -26,6 +48,7 @@ void serial_isr()
    //printf("Recibido");     // se envia por Serial una palabra para verificar interrupcion
    rcvchar = 0x00;
    rcvchar = getc();    // se recibe el caracter enviado por la computadora
+   //addcbuff(rcvchar);
    output_toggle(PIN_D6);
    flagcmd=1;
    //printf("%c", rcvchar );
@@ -59,7 +82,13 @@ void MCU_Init()
 {
    printf("Conectado....*");
    Port_Init();
+   //Procesos_Init();
    inte_Init();
+   setup_spi(FALSE);
+   setup_psp(PSP_DISABLED);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   port_b_pullups(FALSE);
 }
 
 
@@ -70,6 +99,8 @@ void main()
    {  
       if(flagcmd){
          procesa_cmd();
+         //output_toggle(PIN_D4);
+         //flagcmd=0;
       }
 
    }
