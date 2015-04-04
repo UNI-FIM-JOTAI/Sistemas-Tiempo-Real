@@ -87,7 +87,6 @@ namespace InterfazGrafica
         {
             data += PuertoSerial.ReadExisting();
             data = data.ToString();
-            //this.Invoke(new EventHandler(ProcesarComando));
             if (data.EndsWith("*"))
             {
                 data = data.Remove(data.Length - 1);
@@ -137,7 +136,6 @@ namespace InterfazGrafica
         {
             msg = Convert.ToString(TxBxComando.Text);
             msg = msg + "*";
-            //msg = Convert.ToString(msg);
             EnviarComando(msg);
         }
 
